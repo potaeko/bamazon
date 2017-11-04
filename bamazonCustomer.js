@@ -84,30 +84,38 @@ var nextAsk = function (){
 };
 
 function purchase(id, quantityInput) {
- 
+   
     connection.query('SELECT * FROM products WHERE item_id = ' + id, function(error, response) {
         if (error) { console.log(error) };
 
         //need to use reponse[0] to get into index info, if use just response; will show an array
         if (quantityInput <= response[0].stock_quantity) {
- 
+
+
             var totalCost = response[0].price * quantityInput;
+
             
             console.log("We have what you need!");
-            console.log("Your total cost for " + quantityInput + " " + response[0].product_name + " is $" + totalCost + ". Thank You! \n");
-            
-            connection.query('UPDATE Products SET stock_quantity = stock_quantity - ' + quantityInput + ' WHERE id = ' + id);
-            
-            process.exit()
+            console.log("Your total cost for " + quantityInput + " " + response[0].product_name + " is $" + totalCost +".");
+         
+            stock(id,quantityInput)
         } else {
-            console.log("Don't Have Enough " + response[0].product_name + "Sorry~");
+            console.log("Don't Have Enough " + response[0].product_name + " Sorry~");
             
-            process.exit()
+            
         };
         
     });
 
 };
 
+function stock(id,quantityInput){
+   connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + quantityInput + ' WHERE item_id = ' + id
+      ,function(err,res){
+        if (err)throw err; 
+        else console.log("Thank you,Please Come again!");
+        process.exit()})
+        
+}
 
   
