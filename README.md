@@ -12,5 +12,5 @@ Technologies Used:</br>
 -nodeJS</br>
 -MySQL</br>
 npm packages:</br>
--mysql
+-mysql</br>
 -Inquirer.js
